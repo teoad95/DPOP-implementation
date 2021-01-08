@@ -60,6 +60,16 @@ class PseudoTree(object):
         if not ptn in self.PseudoNodes:
             self.PseudoNodes.append(ptn)
 
+    def ExportGraph(self):
+        with open("PseudoTree.txt", "w") as f:
+            f.write("digraph G { " + '\n')
+            for node in self.PseudoNodes:
+                for child in node.get_Child():
+                    f.write('"' + node.Name + '" -> ' + '"' + child.Name + '"' + ';' + '\n')
+                for pseudo_child in node.get_PseudoChild():
+                    f.write('"' + node.Name + '" -> ' + '"' + pseudo_child.Name + '"' + " [style = dashed]" + ';' + '\n')
+            f.write("}")
+
 
 class PseudoTreeNode(object):
 

@@ -1,6 +1,6 @@
 import unittest
 from GraphClass import Graph
-from PseudoTreeClass import PseudoTree, Token
+from PseudoTreeClass import PseudoTree
 
 class PseudoTreeTests(unittest.TestCase):
 
@@ -23,7 +23,7 @@ class PseudoTreeTests(unittest.TestCase):
         #Assert
         self.assertTrue(tree.PseudoNodes)
 
-    def test_TreeConstruction(self):
+    def test_TreeConstructionValidateNodes(self):
         # Assume
         g = {"X0": ["X1", "X4"],
                 "X1": ["X0", "X4"],
@@ -37,8 +37,33 @@ class PseudoTreeTests(unittest.TestCase):
         # Action
         # We will set ase root node X0
         root_node = tree.CreateNodeAndAddItOnTree("X0")
-        token = Token("X0")
-        tree.PseudoTreeNodesCreation(root_node, token)
+        tree.PseudoTreeNodesCreation(root_node)
         # Assert
-        self.assertCountEqual(tree.PseudoNodes, 5)
+        # self.assertCountEqual(tree.PseudoNodes, 5)
+        tree.ExportGraph()
         # TODO Add validations for each Pseudonode P, PP, C, PC
+
+    def test_TreeConstruction_GenerateGraph(self):
+        # Assume
+        g = {"X0": ["X1", "X4", "X11", "X2"],
+             "X1": ["X0", "X4", "X3", "X8"],
+             "X4": ["X0", "X1", "X9", "X10"],
+             "X9": ["X4"],
+             "X10": ["X4"],
+             "X3": ["X1", "X8", "X7"],
+             "X8": ["X1", "X3"],
+             "X7": ["X3"],
+             "X11": ["X0", "X5"],
+             "X5": ["X11", "X2", "X12"],
+             "X2": ["X0", "X5", "X12", "X6"],
+             "X12": ["X2", "X5"],
+             "X6": ["X2", "X13"],
+             "X13": ["X6"],
+             }
+
+        graph = Graph(g)
+        tree = PseudoTree(graph)
+        root_node = tree.CreateNodeAndAddItOnTree("X0")
+        tree.PseudoTreeNodesCreation(root_node)
+        tree.ExportGraph()
+        # validate that the graph is the same as the books
