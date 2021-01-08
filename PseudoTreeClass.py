@@ -11,16 +11,16 @@ class PseudoTree(object):
         # elect leader randomly
         root_node = self.elect_root_node()
         # create token
-        token = Token(root_node)
+        # token = Token(root_node)
         # construct the tree
-        self.PseudoTreeNodesCreation(root_node, token)
+        self.PseudoTreeNodesCreation(root_node)
 
     def elect_root_node(self):
         root_name = random.choice(self.Graph.vertices())
         root_node = self.CreateNodeAndAddItOnTree(root_name)
         return root_node
 
-    def PseudoTreeNodesCreation(self, parent_node, token):
+    def PseudoTreeNodesCreation(self, parent_node):
         for neighbourName in parent_node.Neighbours:
 
             node_is_parent = next((c for c in parent_node.get_Parent() if c.Name == neighbourName), None)
@@ -45,10 +45,10 @@ class PseudoTree(object):
                 parent_node.set_Child(child_node)
                 child_node.set_Parent(parent_node)
                 # Adding child node name to token in order to loop through child's children
-                token.HavePassedFrom.append(neighbourName)
-                self.PseudoTreeNodesCreation(child_node, token)
+                # token.HavePassedFrom.append(neighbourName)
+                self.PseudoTreeNodesCreation(child_node)
                 # Removing child node name from token as we finished with child's children and we go one step back
-                token.HavePassedFrom.remove(neighbourName)
+                # token.HavePassedFrom.remove(neighbourName)
 
     def CreateNodeAndAddItOnTree(self, name):
         nodesAndNeighbours = self.Graph.getNodesAndNeighbours()
@@ -98,10 +98,3 @@ class PseudoTreeNode(object):
 
     def get_PseudoChild(self):
         return self._PC
-
-
-class Token(object):
-
-    def __init__(self, ParentNodes):
-        self.HavePassedFrom = []
-        self.HavePassedFrom.append(ParentNodes)
