@@ -1,6 +1,6 @@
 import random
 from GraphClass import Graph
-
+from PseudoTreeClass import PseudoTree
 
 class Agent:
 
@@ -29,7 +29,7 @@ class MspSolver(object):
         self.meetings = []
         self.variables = {}
         self.problem_graph = Graph({})
-
+        self.pseudo_tree = None
 
     def load_problem(self, filename):
 
@@ -194,6 +194,14 @@ class MspSolver(object):
 
             f.write("}")
 
+    def create_pseudo_tree(self):
+
+        tree = PseudoTree(self.problem_graph)
+        random_root = random.choice(self.problem_graph.vertices())
+        print("...Choosing random root " + random_root)
+        root_node = tree.CreateNodeAndAddItOnTree(random_root)
+        tree.PseudoTreeNodesCreation(root_node)
+        tree.ExportGraph()
 
 if __name__ == "__main__":
 
@@ -201,7 +209,7 @@ if __name__ == "__main__":
     MspSolver.load_problem('.\\extra\\MSP_Problem_5.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
-
+    MspSolver.create_pseudo_tree()
 
 
 
