@@ -195,7 +195,13 @@ class MspSolver(object):
             f.write("}")
 
     def create_pseudo_tree(self):
+
         tree = PseudoTree(self.problem_graph)
+        #random_root = random.choice(self.problem_graph.vertices())
+
+        #print("...Choosing random root " + random_root)
+        #root_node = tree.CreateNodeAndAddItOnTree(random_root)
+        #tree.PseudoTreeNodesCreation(root_node)
         tree.PseudoTreeCreation()
         tree.ExportGraph()
 

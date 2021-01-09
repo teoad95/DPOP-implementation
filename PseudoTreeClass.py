@@ -57,8 +57,11 @@ class PseudoTree(object):
         return rootNode
 
     def _AppendNodeToPseudoTree(self, ptn):
-        if not ptn in self.PseudoNodes:
+        if ptn not in self.PseudoNodes:
+            print('Adding ' + ptn.Name)
             self.PseudoNodes.append(ptn)
+        else:
+            print("...Pseudo Node already present")
 
     def ExportGraph(self):
         with open("PseudoTree.txt", "w") as f:
