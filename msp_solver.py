@@ -143,7 +143,7 @@ class MspSolver(object):
 
     def export_graph(self):
 
-         with open(".\\extra\\MSP_Problem_Graph_" + str(self.numOfAgents) + ".txt", "w") as f:
+         with open(".\\extra\\MSP_" + str(self.numOfAgents) + "_Problem_Graph.txt", "w") as f:
             f.write("graph G { " + '\n')
 
             for i in self.variables:
@@ -177,8 +177,7 @@ class MspSolver(object):
 
             f.write("}")
 
-
-         with open(".\\extra\\MSP_Problem_Graph_nocolor_" + str(self.numOfAgents) + ".txt", "w") as f:
+         with open(".\\extra\\MSP_" + str(self.numOfAgents) + "_Problem_Graph_nocolor.txt", "w") as f:
             f.write("graph G { " + '\n')
 
             for vertex in self.problem_graph.vertices():
@@ -197,9 +196,9 @@ class MspSolver(object):
     def create_pseudo_tree(self):
 
         tree = PseudoTree(self.problem_graph)
- 
+
         tree.PseudoTreeCreation()
-        tree.ExportGraph()
+        tree.ExportGraph(self.numOfAgents)
 
 if __name__ == "__main__":
 

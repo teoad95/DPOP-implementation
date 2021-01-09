@@ -197,7 +197,7 @@ class AgentHierarchy:
 
                 availableNodes = availableNodesInner
 
-        DotExporter(root).to_dotfile(".\\extra\\MSP_Tree_" + str(self.numOfAgents) + ".dot")
+        DotExporter(root).to_dotfile(".\\extra\\MSP_"+str(self.numOfAgents)+"_Hierarchy_Tree.dot")
 
         self.root = root
 
@@ -322,7 +322,7 @@ class AgentHierarchy:
 
     def export_to_file(self):
 
-        with open(".\\extra\\MSP_Problem_" + str(self.numOfAgents) + ".txt", "w") as f:
+        with open(".\\extra\\MSP_"+str(self.numOfAgents)+"_Problem_.txt", "w") as f:
 
             numOfVariables = 0
 
