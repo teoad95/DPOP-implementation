@@ -36,11 +36,11 @@ class PseudoTreeTests(unittest.TestCase):
         tree = PseudoTree(graph)
         # Action
         # We will set ase root node X0
-        root_node = tree.CreateNodeAndAddItOnTree("X0")
+        root_node = tree.CreateNodeAndAddItOnTree("X0", parent_node=None)
         tree.PseudoTreeNodesCreation(root_node)
         # Assert
         # self.assertCountEqual(tree.PseudoNodes, 5)
-        tree.ExportGraph()
+        tree.ExportGraph(0)
         # TODO Add validations for each Pseudonode P, PP, C, PC
 
     def test_TreeConstruction_GenerateGraph(self):
@@ -63,7 +63,14 @@ class PseudoTreeTests(unittest.TestCase):
 
         graph = Graph(g)
         tree = PseudoTree(graph)
-        root_node = tree.CreateNodeAndAddItOnTree("X0")
+        root_node = tree.CreateNodeAndAddItOnTree("X0", parent_node=None)
         tree.PseudoTreeNodesCreation(root_node)
-        tree.ExportGraph()
+        tree.ExportGraph(0)
+
+        tree.root =root_node
+        tree.compute_node_seperators()
+        for node in tree.PseudoNodes:
+                print("Seperators for node " + node.Name)
+                for item in node._SEP:
+                    print(item.Name)
         # validate that the graph is the same as the books

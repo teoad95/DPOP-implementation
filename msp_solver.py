@@ -199,6 +199,7 @@ class MspSolver(object):
 
         tree.PseudoTreeCreation()
         tree.ExportGraph(self.numOfAgents)
+        #tree.compute_node_seperators()
 
 if __name__ == "__main__":
 

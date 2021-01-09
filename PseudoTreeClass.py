@@ -1,23 +1,26 @@
 import random
-
+from anytree import NodeMixin, PostOrderIter
 
 class PseudoTree(object):
 
     def __init__(self, graph):
         self.Graph = graph
         self.PseudoNodes = []
+        self.root = None
 
     def PseudoTreeCreation(self):
         # elect leader randomly
         root_node = self.elect_root_node()
+        self.root = root_node
         # create token
         # token = Token(root_node)
         # construct the tree
         self.PseudoTreeNodesCreation(root_node)
+        self.compute_node_seperators()
 
     def elect_root_node(self):
         root_name = random.choice(self.Graph.vertices())
-        root_node = self.CreateNodeAndAddItOnTree(root_name)
+        root_node = self.CreateNodeAndAddItOnTree(root_name, parent_node=None)
         return root_node
 
     def PseudoTreeNodesCreation(self, parent_node):
@@ -41,7 +44,7 @@ class PseudoTree(object):
                 node_already_exists_in_the_tree.set_PseudoChild(parent_node)
                 parent_node.set_PseudoParent(node_already_exists_in_the_tree)
             else:
-                child_node = self.CreateNodeAndAddItOnTree(neighbourName)
+                child_node = self.CreateNodeAndAddItOnTree(neighbourName, parent_node)
                 parent_node.set_Child(child_node)
                 child_node.set_Parent(parent_node)
                 # Adding child node name to token in order to loop through child's children
@@ -50,9 +53,9 @@ class PseudoTree(object):
                 # Removing child node name from token as we finished with child's children and we go one step back
                 # token.HavePassedFrom.remove(neighbourName)
 
-    def CreateNodeAndAddItOnTree(self, name):
+    def CreateNodeAndAddItOnTree(self, name, parent_node):
         nodesAndNeighbours = self.Graph.getNodesAndNeighbours()
-        rootNode = PseudoTreeNode(name, nodesAndNeighbours[name])
+        rootNode = PseudoTreeNode(name, nodesAndNeighbours[name],parent=parent_node)
         self._AppendNodeToPseudoTree(rootNode)
         return rootNode
 
@@ -71,15 +74,47 @@ class PseudoTree(object):
             f.write("}")
 
 
-class PseudoTreeNode(object):
+    def compute_node_seperators(self):
+        for node in PostOrderIter(self.root):
+            if node.is_leaf:
+                #print("Leaf Node: " + node.Name)
+                node._SEP = node._SEP + node.get_Parent() + node.get_PseudoParent()
+            else:
+                #print("Node: " + node.Name)
+                node._SEP = node._SEP + node.get_Parent() + node.get_PseudoParent()
+                for child in node.children:
+                    node._SEP = node._SEP + child._SEP
 
-    def __init__(self, name, neighbours):
+            # remove duplicates
+
+            node._SEP = list(dict.fromkeys(node._SEP))
+
+            if node in node._SEP:
+                node._SEP.remove(node)
+
+        for node in PostOrderIter(self.root):
+            print("Seperators for node " + node.Name)
+            for item in node._SEP:
+                print(item.Name)
+
+
+class PseudoTreeNode(NodeMixin):
+
+
+
+    def __init__(self, name,  neighbours, parent = None, children = None):
+        super(PseudoTreeNode, self).__init__()
         self.Name = name
         self._P = []
         self._PP = []
         self._C = []
         self._PC = []
+        self._SEP = []
         self.Neighbours = neighbours
+        self.parent = parent
+        if children:
+            self.children = children
+
 
     def set_Parent(self, x):
         if not x in self._P:
@@ -87,6 +122,13 @@ class PseudoTreeNode(object):
 
     def get_Parent(self):
         return self._P
+
+    def set_Seperator(self, x):
+        if not x in self._SEP:
+            self._SEP.append(x)
+
+    def get_Seperator(self):
+        return self._SEP
 
     def set_PseudoParent(self, x):
         if not x in self._PP:
