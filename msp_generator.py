@@ -322,7 +322,7 @@ class AgentHierarchy:
 
     def export_to_file(self):
 
-        with open(".\\extra\\MSP_"+str(self.numOfAgents)+"_Problem_.txt", "w") as f:
+        with open(".\\extra\\MSP_"+str(self.numOfAgents)+"_Problem.txt", "w") as f:
 
             numOfVariables = 0
 

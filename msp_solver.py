@@ -203,7 +203,7 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_Problem_5.txt')
+    MspSolver.load_problem('.\\extra\\MSP_5_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
