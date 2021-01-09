@@ -55,12 +55,10 @@ class MspSolver(object):
                 meetingUtil = lineToList[2]
 
                 if agentId not in createdAgents:
-                    #print("Creating Agent " + agentId)
                     createdAgents.append(agentId)
                     self.agents.append(Agent('A'+agentId))
 
                 if meetingId not in createdMeetings:
-                    #print("Creating Meeting " + meetingId)
                     createdMeetings.append(meetingId)
                     self.meetings.append(Meeting('M'+meetingId, {}))
 
@@ -93,20 +91,6 @@ class MspSolver(object):
                     if agent.name == ('A'+str(i)):
                         agent.time_utils = utils
 
-            # print(self.variables)
-            # for agent in self.agents:
-            #     print(agent.name)
-            #     print(agent.time_utils)
-            #     for meeting in agent.meetings:
-            #         print(meeting.mid)
-            #         print(meeting.participants)
-            #     print("-------------------------------")
-            #
-            # for meeting in self.meetings:
-            #     print(meeting.mid)
-            #     print(meeting.participants)
-            #     print("-------------------------------")
-            #     #print(line, end='')
             print("-------------------------------")
             print("DCOP Problem Description")
             print("-------------------------------")
@@ -154,7 +138,6 @@ class MspSolver(object):
                 constraints = []
                 for meeting in agent.meetings:
                     constraints.append(agent.name + '_' + meeting.mid)
-                    # print(agent.name+'_'+meeting.mid )
                 M = len(constraints)
                 for c in range(M):
 
@@ -196,10 +179,11 @@ class MspSolver(object):
     def create_pseudo_tree(self):
 
         tree = PseudoTree(self.problem_graph)
-
         tree.PseudoTreeCreation()
         tree.ExportGraph(self.numOfAgents)
-        #tree.compute_node_seperators()
+        self.pseudo_tree = tree
+
+
 
 if __name__ == "__main__":
 
@@ -208,6 +192,7 @@ if __name__ == "__main__":
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
+    MspSolver.pseudo_tree.print_node_seperators()
 
 
 

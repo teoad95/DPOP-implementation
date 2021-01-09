@@ -26,20 +26,20 @@ class PseudoTree(object):
     def PseudoTreeNodesCreation(self, parent_node):
         for neighbourName in parent_node.Neighbours:
 
-            node_is_parent = next((c for c in parent_node.get_Parent() if c.Name == neighbourName), None)
+            node_is_parent = next((c for c in parent_node.get_Parent() if c.name == neighbourName), None)
             if node_is_parent is not None:
                 continue
 
             # may we not really need this check
-            node_is_pseudoparent = next((c for c in parent_node.get_PseudoParent() if c.Name == neighbourName), None)
+            node_is_pseudoparent = next((c for c in parent_node.get_PseudoParent() if c.name == neighbourName), None)
             if node_is_pseudoparent is not None:
                 continue
 
-            node_is_pseudochild = next((c for c in parent_node.get_PseudoChild() if c.Name == neighbourName), None)
+            node_is_pseudochild = next((c for c in parent_node.get_PseudoChild() if c.name == neighbourName), None)
             if node_is_pseudochild is not None:
                 continue
 
-            node_already_exists_in_the_tree = next((c for c in self.PseudoNodes if c.Name == neighbourName), None)
+            node_already_exists_in_the_tree = next((c for c in self.PseudoNodes if c.name == neighbourName), None)
             if node_already_exists_in_the_tree is not None:
                 node_already_exists_in_the_tree.set_PseudoChild(parent_node)
                 parent_node.set_PseudoParent(node_already_exists_in_the_tree)
@@ -68,43 +68,42 @@ class PseudoTree(object):
             f.write("digraph G { " + '\n')
             for node in self.PseudoNodes:
                 for child in node.get_Child():
-                    f.write('"' + node.Name + '" -> ' + '"' + child.Name + '"' + ';' + '\n')
+                    f.write('"' + node.name + '" -> ' + '"' + child.name + '"' + ';' + '\n')
                 for pseudo_child in node.get_PseudoChild():
-                    f.write('"' + node.Name + '" -> ' + '"' + pseudo_child.Name + '"' + " [style = dashed]" + ';' + '\n')
+                    f.write('"' + node.name + '" -> ' + '"' + pseudo_child.name + '"' + " [style = dashed]" + ';' + '\n')
             f.write("}")
 
 
     def compute_node_seperators(self):
         for node in PostOrderIter(self.root):
             if node.is_leaf:
-                #print("Leaf Node: " + node.Name)
                 node._SEP = node._SEP + node.get_Parent() + node.get_PseudoParent()
             else:
-                #print("Node: " + node.Name)
                 node._SEP = node._SEP + node.get_Parent() + node.get_PseudoParent()
                 for child in node.children:
                     node._SEP = node._SEP + child._SEP
 
             # remove duplicates
-
             node._SEP = list(dict.fromkeys(node._SEP))
 
             if node in node._SEP:
                 node._SEP.remove(node)
 
+    def print_node_seperators(self):
+        print("-----------------------------------")
+        print("Printing Node Separators")
+        print("-----------------------------------")
         for node in PostOrderIter(self.root):
-            print("Seperators for node " + node.Name)
+            print("Separators for node " + node.name)
             for item in node._SEP:
-                print(item.Name)
+                print(item.name)
 
 
 class PseudoTreeNode(NodeMixin):
 
-
-
     def __init__(self, name,  neighbours, parent = None, children = None):
         super(PseudoTreeNode, self).__init__()
-        self.Name = name
+        self.name = name
         self._P = []
         self._PP = []
         self._C = []
@@ -114,7 +113,6 @@ class PseudoTreeNode(NodeMixin):
         self.parent = parent
         if children:
             self.children = children
-
 
     def set_Parent(self, x):
         if not x in self._P:

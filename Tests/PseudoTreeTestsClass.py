@@ -1,6 +1,7 @@
 import unittest
 from GraphClass import Graph
 from PseudoTreeClass import PseudoTree
+from anytree.exporter import DotExporter
 
 class PseudoTreeTests(unittest.TestCase):
 
@@ -67,10 +68,11 @@ class PseudoTreeTests(unittest.TestCase):
         tree.PseudoTreeNodesCreation(root_node)
         tree.ExportGraph(0)
 
-        tree.root =root_node
+        tree.root = root_node
         tree.compute_node_seperators()
         for node in tree.PseudoNodes:
-                print("Seperators for node " + node.Name)
+                print("Seperators for node " + node.name)
                 for item in node._SEP:
-                    print(item.Name)
+                    print(item.name)
+        DotExporter(tree.root).to_dotfile(".\\extra\\MSP_0_Hierarchy_Tree.dot")
         # validate that the graph is the same as the books
