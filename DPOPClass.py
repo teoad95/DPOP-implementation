@@ -1,4 +1,7 @@
+from NAryMatrixClass import NAryMatrixRelation
 from PseudoTreeClass import PseudoTree
+from DpopUtilsClass import join, projection
+
 
 class Dpop(object):
 
@@ -9,26 +12,26 @@ class Dpop(object):
         # TODO order tree nodes this may already be implemented
 
         # Util message propagation
-        util = self.ChooseOptimalUtil(self.Get_Utils(self.PseudoTree.root.get_Child))
+        util_message = self.Get_Utils(self.PseudoTree.root, self.PseudoTree.root.get_Child())
+        optimal_util = self.ChooseOptimalUtil(util_message)
 
         # Value message propagation
-        self.SendValue(util, self.PseudoTree.root.get_Child)
+        self.SendValue(optimal_util, self.PseudoTree.root.get_Child)
 
-    def Get_Utils(self, nodesToloop):
-        utilsArray = []
+    def Get_Utils(self, parent, nodesToloop):
+        utilsFromChildrensArray = []
         for node in nodesToloop:
-            if node.get_Child: # if node has childs get deeper
-                util = self.Get_Utils(node.get_Child)
+            if node.get_Child():  # if node has childs get deeper
+                util = self.Get_Utils(node, node.get_Child())
             else:
-                return self.CalculateUtil(node) # return util for the leaf node
-            self.JoinArrays(utilsArray, util)
-        # here we will have to do whatever we need to do when the node receives all the utils from childs
-        return utilsArray
+                return self.CalculateUtil(node)  # return util for the leaf node
+            utilsFromChildrensArray.append(util)
+        return self.CalculateUtil(parent, utilsFromChildrensArray)
 
     def SendValue(self, util, nodesToLoop):
         for node in nodesToLoop:
-            if node.get_Child:  # if node has childs get deeper
-                self.SendValue(util, node.get_Child)
+            if node.get_Child():  # if node has childs get deeper
+                self.SendValue(util, node.get_Child())
             self.HandleValue(node, util)
 
     def HandleValue(self, node, util):
@@ -36,13 +39,13 @@ class Dpop(object):
         # selected value from the root
         pass
 
-    def JoinArrays(self, utilsArray, util):
-        # implement the method which will join the arrays
-        pass
-
-    def CalculateUtil(self, node):
-        # implement the method which will calculate the utils
-        pass
+    def CalculateUtil(self, node, utils_to_join = []):
+        for sep in node.get_Seperator():
+            variables, constraint = node.compute_binary_constraint(sep)
+            constraintArray = NAryMatrixRelation(variables)
+            joined_utils = join(joined_utils, constraint)
+        util_message = projection(joined_utils, node)
+        return util_message
 
     def ChooseOptimalUtil(self, param):
         # implement the method which will choose the optimal util
