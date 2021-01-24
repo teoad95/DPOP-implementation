@@ -2,6 +2,9 @@ import random
 from GraphClass import Graph
 from PseudoTreeClass import PseudoTree
 
+DOMAIN = ["8", "9", "10", "11", "12", "13", "14", "15"]
+
+
 class Agent:
 
     # instance attributes
@@ -18,6 +21,13 @@ class Meeting:
         self.participants = participants
 
 
+class Variable:
+    def __init__(self, name, domain, utils):
+        self.name = name
+        self.domain = domain
+        self.utils = utils
+
+
 class MspSolver(object):
 
     def __init__(self):
@@ -30,6 +40,7 @@ class MspSolver(object):
         self.variables = {}
         self.problem_graph = Graph({})
         self.pseudo_tree = None
+        self.variable_x_unary_constraint = {}
 
     def load_problem(self, filename):
 
@@ -90,6 +101,8 @@ class MspSolver(object):
                 for agent in self.agents:
                     if agent.name == ('A'+str(i)):
                         agent.time_utils = utils
+
+            self.variable_x_unary_constraint = self.compute_unary_constraints()
 
             print("-------------------------------")
             print("DCOP Problem Description")
@@ -178,10 +191,30 @@ class MspSolver(object):
 
     def create_pseudo_tree(self):
 
-        tree = PseudoTree(self.problem_graph)
+        print(self.variable_x_unary_constraint)
+        tree = PseudoTree(self.problem_graph, self.variable_x_unary_constraint)
         tree.PseudoTreeCreation()
         tree.ExportGraph(self.numOfAgents)
         self.pseudo_tree = tree
+
+    def compute_unary_constraints(self):
+
+        variable_x_unary_constraint = {}
+
+        for v in self.variables:
+            agent_name = v.split("_")[0]
+
+            for a in self.agents:
+                if a.name == agent_name:
+                    unary_constraint = []
+
+                    for i in range(len(a.time_utils)):
+                        unary_constraint.append(int(a.time_utils[i]) * int(self.variables[v]))
+                        variable = Variable(v, DOMAIN, unary_constraint)
+                        variable_x_unary_constraint[v] = variable
+
+
+        return variable_x_unary_constraint
 
 
 

@@ -3,8 +3,9 @@ from anytree import NodeMixin, PostOrderIter
 
 class PseudoTree(object):
 
-    def __init__(self, graph):
+    def __init__(self, graph, variable_x_unary_constraint):
         self.Graph = graph
+        self.variable_x_unary_constraint = variable_x_unary_constraint
         self.PseudoNodes = []
         self.root = None
 
@@ -55,7 +56,9 @@ class PseudoTree(object):
 
     def CreateNodeAndAddItOnTree(self, name, parent_node):
         nodesAndNeighbours = self.Graph.getNodesAndNeighbours()
-        rootNode = PseudoTreeNode(name, nodesAndNeighbours[name],parent=parent_node)
+        rootNode = PseudoTreeNode(name, nodesAndNeighbours[name],
+                                  values=self.variable_x_unary_constraint[name],
+                                  parent=parent_node)
         self._AppendNodeToPseudoTree(rootNode)
         return rootNode
 
@@ -98,10 +101,15 @@ class PseudoTree(object):
             for item in node._SEP:
                 print(item.name)
 
+                a, b = item.compute_binary_constraint(node)
+                print(a)
+                print(b)
+
+
 
 class PseudoTreeNode(NodeMixin):
 
-    def __init__(self, name,  neighbours, parent = None, children = None):
+    def __init__(self, name,  neighbours, values,  parent=None, children=None):
         super(PseudoTreeNode, self).__init__()
         self.name = name
         self._P = []
@@ -109,8 +117,10 @@ class PseudoTreeNode(NodeMixin):
         self._C = []
         self._PC = []
         self._SEP = []
+        self.values = values
         self.Neighbours = neighbours
         self.parent = parent
+
         if children:
             self.children = children
 
@@ -148,3 +158,42 @@ class PseudoTreeNode(NodeMixin):
 
     def get_PseudoChild(self):
         return self._PC
+
+
+    def compute_binary_constraint(self, v2):
+
+        binary_constraint = [[0,0,0,0,0,0,0,0],
+                             [0,0,0,0,0,0,0,0],
+                             [0,0,0,0,0,0,0,0],
+                             [0,0,0,0,0,0,0,0],
+                             [0,0,0,0,0,0,0,0],
+                             [0,0,0,0,0,0,0,0],
+                             [0,0,0,0,0,0,0,0],
+                             [0,0,0,0,0,0,0,0]]
+
+        v1_agent = self.name.split("_")[0]
+        v1_meeting = self.name.split("_")[1]
+        v2_agent = v2.name.split("_")[0]
+        v2_meeting = v2.name.split("_")[1]
+
+
+        if v1_agent == v2_agent:
+            if v1_meeting != v2_meeting:
+                for i in range(len(self.values.utils)):
+                    for j in range(len(v2.values.utils)):
+                        if i == j:
+                            binary_constraint[i][j] = 0
+                        else:
+                            binary_constraint[i][j] = int(self.values.utils[i]) + int(v2.values.utils[i])
+
+        elif v1_meeting == v2_meeting:
+            if v1_agent != v2_agent:
+                for i in range(len(self.values.utils)):
+                    for j in range(len(v2.values.utils)):
+                        if i == j:
+                            binary_constraint[i][j] = int(self.values.utils[i]) + int(v2.values.utils[i])
+                        else:
+                            binary_constraint[i][j] = 0
+
+
+        return [self.name, v2.name], binary_constraint
