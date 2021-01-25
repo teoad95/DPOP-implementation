@@ -43,15 +43,17 @@ def projection(a_rel, a_var):
     proj_rel = NAryMatrixRelation(remaining_vars)
 
     for partial in _generate_assignment_as_dict(remaining_vars):
-        rel_val = find_arg_optimal(a_var, a_rel.slice(partial))
+        rel_val, _ = find_arg_optimal(a_var, a_rel.slice(partial))
         proj_rel = proj_rel.set_value_for_assignment(partial, rel_val)
 
     return proj_rel
 
 def find_arg_optimal(variable, relation):
     best_rel_val = 0
+    best_domain_value = None
     for v in variable.domain:
         current_rel_val = relation(v)
         if (best_rel_val < current_rel_val):
             best_rel_val = current_rel_val
-    return best_rel_val
+            best_domain_value = v
+    return best_rel_val, best_domain_value

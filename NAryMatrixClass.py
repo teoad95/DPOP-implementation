@@ -41,7 +41,7 @@ class NAryMatrixRelation(object):
         return  self._variables
 
     def slice(
-            self, partial_assignment: dict[str, object], ignore_extra_vars=False
+            self, partial_assignment, ignore_extra_vars=False
     ) -> "NAryMatrixRelation":
         if not partial_assignment:
             return self

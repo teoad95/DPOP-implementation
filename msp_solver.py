@@ -189,11 +189,11 @@ class MspSolver(object):
 
             f.write("}")
 
-    def create_pseudo_tree(self):
+    def create_pseudo_tree(self, rootNode = ""):
 
         print(self.variable_x_unary_constraint)
         tree = PseudoTree(self.problem_graph, self.variable_x_unary_constraint)
-        tree.PseudoTreeCreation()
+        tree.PseudoTreeCreation(rootNode)
         tree.ExportGraph(self.numOfAgents)
         self.pseudo_tree = tree
 

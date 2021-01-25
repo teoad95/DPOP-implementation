@@ -10,9 +10,9 @@ class PseudoTree(object):
         self.PseudoNodes = []
         self.root = None
 
-    def PseudoTreeCreation(self):
+    def PseudoTreeCreation(self, rootName = ""):
         # elect leader randomly
-        root_node = self.elect_root_node()
+        root_node = self.elect_root_node(rootName)
         self.root = root_node
         # create token
         # token = Token(root_node)
@@ -20,9 +20,10 @@ class PseudoTree(object):
         self.PseudoTreeNodesCreation(root_node)
         self.compute_node_seperators()
 
-    def elect_root_node(self):
-        root_name = random.choice(self.Graph.vertices())
-        root_node = self.CreateNodeAndAddItOnTree(root_name, parent_node=None)
+    def elect_root_node(self, rootName):
+        if rootName == "":
+            rootName = random.choice(self.Graph.vertices())
+        root_node = self.CreateNodeAndAddItOnTree(rootName, parent_node=None)
         return root_node
 
     def PseudoTreeNodesCreation(self, parent_node):
