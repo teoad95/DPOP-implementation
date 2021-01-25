@@ -122,6 +122,8 @@ class PseudoTreeNode(NodeMixin):
         self.var = var
         self.Neighbours = neighbours
         self.parent = parent
+        self.Join = None
+        self.ValueMessages = {}
 
         if children:
             self.children = children
@@ -153,6 +155,9 @@ class PseudoTreeNode(NodeMixin):
 
     def get_Child(self):
         return self._C
+
+    def get_AllChilds(self):
+        return self._C + self._PC
 
     def set_PseudoChild(self, x):
         if not x in self._PC:

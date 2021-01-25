@@ -33,4 +33,4 @@ class DpopTests(unittest.TestCase):
         Solver.create_pseudo_tree("A1_M1")
         Solver.pseudo_tree.print_node_seperators()
         algorithm = Dpop(Solver.pseudo_tree)
-        algorithm.Solve_Proble()
+        algorithm.Solve_Problem()

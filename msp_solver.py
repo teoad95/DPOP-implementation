@@ -26,6 +26,7 @@ class Variable:
         self.name = name
         self.domain = domain
         self.utils = utils
+        self.optimal_value = "N/A"
 
 
 class MspSolver(object):
