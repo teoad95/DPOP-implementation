@@ -42,9 +42,15 @@ class Dpop(object):
     def CalculateUtil(self, node, utils_to_join = []):
         for sep in node.get_Seperator():
             variables, constraint = node.compute_binary_constraint(sep)
-            constraintArray = NAryMatrixRelation(variables)
-            joined_utils = join(joined_utils, constraint)
-        util_message = projection(joined_utils, node)
+            constraintArray = NAryMatrixRelation(variables, constraint)
+            utils_to_join.append(constraintArray)
+
+        util_message = utils_to_join.pop(0)
+        for u in utils_to_join:
+            util_message = join(util_message, u)
+
+        util_message = projection(util_message, node.var)
+
         return util_message
 
     def ChooseOptimalUtil(self, param):

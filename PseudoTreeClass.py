@@ -192,4 +192,4 @@ class PseudoTreeNode(NodeMixin):
                             binary_constraint[i][j] = 0
 
 
-        return [self, v2], binary_constraint
+        return [self.var, v2.var], binary_constraint
