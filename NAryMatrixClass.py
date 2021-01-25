@@ -25,3 +25,6 @@ class NAryMatrixRelation(object):
             matrix.itemset(s, rel_value)
             return NAryMatrixRelation(self._variables, matrix, name=self.name)
         raise ValueError("Could not set value, must be list or dict")
+
+    def dimensions(self)  :
+        return  self._variables

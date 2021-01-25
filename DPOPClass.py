@@ -50,7 +50,7 @@ class Dpop(object):
             util_message = join(util_message, u)
 
         util_message = projection(util_message, node.var)
-
+        print('here')
         return util_message
 
     def ChooseOptimalUtil(self, param):

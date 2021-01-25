@@ -2,7 +2,7 @@ from NAryMatrixClass import NAryMatrixRelation
 
 
 def join(array1, array2):
-    dims = array1.dimensions[:]
+    dims = array1.dimensions()[:]
     for d2 in array2.dimensions:
         if d2 not in dims:
             dims.append(d2)
@@ -36,7 +36,7 @@ def _filter_assignment_dict(assignment, target_vars):
     return filtered_ass
 
 def projection(a_rel, a_var):
-    remaining_vars = a_rel.dimensions.copy()
+    remaining_vars = a_rel.dimensions().copy()
     remaining_vars.remove(a_var)
 
     # the new relation resulting from the projection

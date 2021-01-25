@@ -93,7 +93,7 @@ class MspSolver(object):
             for i in range(1, self.numOfAgents+1):
                 utils = []
 
-                for j in range(8):
+                for j in range(3):
                     line = reader.readline()
                     lineToList = line.strip('\n').split(',')
                     utils.append(lineToList[2])
