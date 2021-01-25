@@ -6,6 +6,8 @@ class DpopTests(unittest.TestCase):
 
     def test_readFile(self):
         Solver = MspSolver()
+
+        # Solver.load_problem('.\\extra\\MSP_4_PseudoTree.txt')
         Solver.load_problem('.\\extra\\simpleMeetingTestWith4Agents.txt')
         Solver.create_graph()
         Solver.create_pseudo_tree()

@@ -3,14 +3,14 @@ from NAryMatrixClass import NAryMatrixRelation
 
 def join(array1, array2):
     dims = array1.dimensions()[:]
-    for d2 in array2.dimensions:
+    for d2 in array2.dimensions():
         if d2 not in dims:
             dims.append(d2)
 
     u_j = NAryMatrixRelation(dims, name="joined_utils")
     for ass in _generate_assignment_as_dict(dims):
-        u1_ass = _filter_assignment_dict(ass, array1.dimensions)
-        u2_ass = _filter_assignment_dict(ass, array2.dimensions)
+        u1_ass = _filter_assignment_dict(ass, array1.dimensions())
+        u2_ass = _filter_assignment_dict(ass, array2.dimensions())
         s = array1(**u1_ass) + array2(**u2_ass)
         u_j = u_j.set_value_for_assignment(ass, s)
 
@@ -49,6 +49,7 @@ def projection(a_rel, a_var):
     return proj_rel
 
 def find_arg_optimal(variable, relation):
+    best_rel_val = 0
     for v in variable.domain:
         current_rel_val = relation(v)
         if (best_rel_val < current_rel_val):

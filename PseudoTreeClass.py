@@ -163,8 +163,6 @@ class PseudoTreeNode(NodeMixin):
 
     def compute_binary_constraint(self, v2):
 
-
-
         binary_constraint = np.zeros(shape=(len(self.var.domain), len(self.var.domain)))
 
         v1_agent = self.name.split("_")[0]
