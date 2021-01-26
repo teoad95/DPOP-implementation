@@ -7,7 +7,8 @@ def join(array1, array2):
         if d2 not in dims:
             dims.append(d2)
 
-    u_j = NAryMatrixRelation(dims, name="joined_utils")
+    u_j = NAryMatrixRelation(dims, name="[" + array1.name + ' , ' + array2.name + ']')
+
     for ass in _generate_assignment_as_dict(dims):
         u1_ass = _filter_assignment_dict(ass, array1.dimensions())
         u2_ass = _filter_assignment_dict(ass, array2.dimensions())
@@ -35,12 +36,12 @@ def _filter_assignment_dict(assignment, target_vars):
             filtered_ass[v] = assignment[v]
     return filtered_ass
 
-def projection(a_rel, a_var):
+def projection(a_rel, a_var, name=''):
     remaining_vars = a_rel.dimensions().copy()
     remaining_vars.remove(a_var)
 
     # the new relation resulting from the projection
-    proj_rel = NAryMatrixRelation(remaining_vars)
+    proj_rel = NAryMatrixRelation(remaining_vars, name= name)
 
     for partial in _generate_assignment_as_dict(remaining_vars):
         rel_val, _ = find_arg_optimal(a_var, a_rel.slice(partial))

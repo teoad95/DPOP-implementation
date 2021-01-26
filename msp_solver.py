@@ -4,8 +4,8 @@ from PseudoTreeClass import PseudoTree
 from DPOPClass import Dpop
 
 
-#DOMAIN = ["8", "9", "10", "11", "12", "13", "14", "15"]
-DOMAIN = ["8", "9", "10" ]
+DOMAIN = ["8", "9", "10", "11", "12", "13", "14", "15"]
+#DOMAIN = ["8", "9", "10" ]
 
 class Agent:
 
@@ -96,7 +96,7 @@ class MspSolver(object):
             for i in range(1, self.numOfAgents+1):
                 utils = []
 
-                for j in range(3):
+                for j in range(len(DOMAIN)):
                     line = reader.readline()
                     lineToList = line.strip('\n').split(',')
                     utils.append(lineToList[2])
@@ -224,7 +224,7 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_3_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_6_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()

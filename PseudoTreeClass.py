@@ -125,6 +125,7 @@ class PseudoTreeNode(NodeMixin):
         self.parent = parent
         self.Join = None
         self.ValueMessages = {}
+        self.utilsFromChildrensArray =[]
 
         if children:
             self.children = children

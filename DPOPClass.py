@@ -32,15 +32,21 @@ class Dpop(object):
 
     def Get_Utils(self, parent, nodesToloop):
         utilsFromChildrensArray = []
+        print('Calculating Utils for :: ' + parent.name + ' with nodesToloop :: ', end = '' )
+        print([c.name for c in parent.get_Child()]  )
+
+
         for node in nodesToloop:
             if node.get_Child():  # if node has childs get deeper
                 util = self.Get_Utils(node, node.get_Child())
             else:
                 util = self.CalculateUtil(node)  # return util for the leaf node
-            utilsFromChildrensArray.append(util)
+            parent.utilsFromChildrensArray.append(util)
+            #utilsFromChildrensArray.append(util)
         if parent.is_root:
-            return self._joinUtilMessagesList(utilsFromChildrensArray)
-        return self.CalculateUtil(parent, utilsFromChildrensArray)
+            return self._joinUtilMessagesList(parent.utilsFromChildrensArray)
+
+        return self.CalculateUtil(parent, parent.utilsFromChildrensArray)
 
     def SendValue(self, sender, util, nodesToLoop):
         for node in nodesToLoop:
@@ -58,7 +64,7 @@ class Dpop(object):
             self.SendValue(node, new_util, node.get_AllChilds())
 
     def HandleValue(self, node):
-        print('------------------------------------------')
+        print('-----------------------')
         print("[HANDLE] VALUES: " + node.name)
         print('Received : ', end='')
         print(node.ValueMessages)
@@ -70,24 +76,37 @@ class Dpop(object):
         return current_cost
 
     def CalculateUtil(self, node, utils_to_join = []):
+        print('UTIL : ' + node.name)
         for sep in node.get_Seperator():
             variables, constraint = node.compute_binary_constraint(sep)
-            constraintArray = NAryMatrixRelation(variables, constraint)
-            utils_to_join.append(constraintArray)
+            constraintArray = NAryMatrixRelation(variables, constraint, name='UTIL_' + node.name + '_' + sep.name)
+            ##utils_to_join.append(constraintArray)
+            node.utilsFromChildrensArray.append(constraintArray)
 
+        print('seperators computed')
 
-        util_message = self._joinUtilMessagesList(utils_to_join)
+        ##util_message = self._joinUtilMessagesList(utils_to_join)
+        util_message = self._joinUtilMessagesList(node.utilsFromChildrensArray)
+
         node.Join = util_message
-        util_message = projection(util_message, node.var)
 
-        print('UTIL : ' + node.name    )
+
+        print('utils_to_join = ', end='')
+        print([v.name for v in node.utilsFromChildrensArray])
         print([v.name for v in util_message.dimensions()])
 
+        util_message = projection(util_message, node.var, name = util_message.name)
 
         return util_message
 
     def _joinUtilMessagesList(self, utils_to_join):
+        print('TO JOIN :: ' + str(len(utils_to_join)) + ' messages.')
+
         util_message = utils_to_join.pop(0)
+
         for u in utils_to_join:
+            print('computing...')
             util_message = join(util_message, u)
+            print('dimensions = ' , end='')
+            print([v.name for v in util_message.dimensions()])
         return util_message
