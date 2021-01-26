@@ -107,6 +107,12 @@ class PseudoTree(object):
 
                 #a, b = item.compute_binary_constraint(node)
 
+    def showconstaints(self):
+        for node1 in self.PseudoNodes:
+            for node in node1.get_AllParents():
+                print('Constraint of  : ' + node1.name + ' with ' + node.name)
+                variables, constraint = node1.compute_binary_constraint(node)
+                print(constraint)
 
 
 
@@ -160,6 +166,9 @@ class PseudoTreeNode(NodeMixin):
 
     def get_AllChilds(self):
         return self._C + self._PC
+
+    def get_AllParents(self):
+        return self._P + self._PP
 
     def set_PseudoChild(self, x):
         if not x in self._PC:

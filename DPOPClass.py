@@ -71,13 +71,14 @@ class Dpop(object):
         print('JOIN     : ' , end='')
         print([v.name for v in node.Join.dimensions()])
         rel = node.Join.slice(node.ValueMessages)
+        print(rel._m)
         values, current_cost = find_arg_optimal(node.var, rel)
         node.var.optimal_value = current_cost
         return current_cost
 
     def CalculateUtil(self, node, utils_to_join = []):
         print('UTIL : ' + node.name)
-        for sep in node.get_Seperator():
+        for sep in node.get_AllParents():
             variables, constraint = node.compute_binary_constraint(sep)
             constraintArray = NAryMatrixRelation(variables, constraint, name='UTIL_' + node.name + '_' + sep.name)
             ##utils_to_join.append(constraintArray)

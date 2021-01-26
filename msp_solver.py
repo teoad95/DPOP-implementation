@@ -228,6 +228,7 @@ if __name__ == "__main__":
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
+    MspSolver.pseudo_tree.showconstaints()
     MspSolver.pseudo_tree.print_node_seperators()
     algorithm = Dpop(MspSolver.pseudo_tree)
     algorithm.Solve_Problem()
