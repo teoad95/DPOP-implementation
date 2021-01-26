@@ -9,14 +9,23 @@ class Dpop(object):
 
     def Solve_Problem(self):
         # Util message propagation
+        print('-----------------------')
+        print('UTIL PROPAGATION')
+        print('-----------------------')
         util_message = self.Get_Utils(self.PseudoTree.root, self.PseudoTree.root.get_Child())
         optimal_util_value, optimal_util = find_arg_optimal(self.PseudoTree.root.var, util_message)
 
         self.PseudoTree.root.var.optimal_value = optimal_util
 
+        print('-----------------------')
+        print('VALUE PROPAGATION')
+        print('-----------------------')
         # Value message propagation
         self.SendValue(self.PseudoTree.root, optimal_util, self.PseudoTree.root.get_AllChilds())
 
+        print('************************')
+        print('RESULT')
+        print('************************')
         # Show results
         for node in self.PseudoTree.PseudoNodes:
             print(node.var.name + ' ' + node.var.optimal_value)
@@ -35,12 +44,26 @@ class Dpop(object):
 
     def SendValue(self, sender, util, nodesToLoop):
         for node in nodesToLoop:
+            print("VALUE: [" + sender.name + '] -> [' + node.name + '] :: ' + util)
             node.ValueMessages[sender.name] = util
+
+            for i in sender.ValueMessages.keys():
+                    for v in node.Join.dimensions():
+                        if i == v.name:
+                            node.ValueMessages[i] = sender.ValueMessages[i]
+
         for node in sender.get_Child():
+
             new_util = self.HandleValue(node)
             self.SendValue(node, new_util, node.get_AllChilds())
 
     def HandleValue(self, node):
+        print('------------------------------------------')
+        print("[HANDLE] VALUES: " + node.name)
+        print('Received : ', end='')
+        print(node.ValueMessages)
+        print('JOIN     : ' , end='')
+        print([v.name for v in node.Join.dimensions()])
         rel = node.Join.slice(node.ValueMessages)
         values, current_cost = find_arg_optimal(node.var, rel)
         node.var.optimal_value = current_cost
@@ -52,10 +75,15 @@ class Dpop(object):
             constraintArray = NAryMatrixRelation(variables, constraint)
             utils_to_join.append(constraintArray)
 
+
         util_message = self._joinUtilMessagesList(utils_to_join)
         node.Join = util_message
         util_message = projection(util_message, node.var)
-        print('here')
+
+        print('UTIL : ' + node.name    )
+        print([v.name for v in util_message.dimensions()])
+
+
         return util_message
 
     def _joinUtilMessagesList(self, utils_to_join):

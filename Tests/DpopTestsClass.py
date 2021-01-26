@@ -27,10 +27,10 @@ class DpopTests(unittest.TestCase):
     def test_readFile2(self):
         # PrepareData
         Solver = MspSolver()
-        # Solver.load_problem('.\\extra\\MSP_4_PseudoTree.txt')
+        #Solver.load_problem('.\\extra\\MSP_3_Problem.txt')
         Solver.load_problem('.\\extra\\simpleMeetingTestWith4Agents.txt')
         Solver.create_graph()
-        Solver.create_pseudo_tree("A1_M1")
-        Solver.pseudo_tree.print_node_seperators()
+        Solver.create_pseudo_tree()
+        #Solver.pseudo_tree.print_node_seperators()
         algorithm = Dpop(Solver.pseudo_tree)
         algorithm.Solve_Problem()

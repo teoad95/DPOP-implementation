@@ -94,6 +94,8 @@ class PseudoTree(object):
             if node in node._SEP:
                 node._SEP.remove(node)
 
+
+
     def print_node_seperators(self):
         print("-----------------------------------")
         print("Printing Node Separators")
@@ -103,9 +105,8 @@ class PseudoTree(object):
             for item in node._SEP:
                 print(item.name)
 
-                a, b = item.compute_binary_constraint(node)
-                print(a)
-                print(b)
+                #a, b = item.compute_binary_constraint(node)
+
 
 
 

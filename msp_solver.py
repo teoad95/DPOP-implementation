@@ -1,9 +1,11 @@
 import random
 from GraphClass import Graph
 from PseudoTreeClass import PseudoTree
+from DPOPClass import Dpop
 
-DOMAIN = ["8", "9", "10", "11", "12", "13", "14", "15"]
 
+#DOMAIN = ["8", "9", "10", "11", "12", "13", "14", "15"]
+DOMAIN = ["8", "9", "10" ]
 
 class Agent:
 
@@ -192,7 +194,7 @@ class MspSolver(object):
 
     def create_pseudo_tree(self, rootNode = ""):
 
-        print(self.variable_x_unary_constraint)
+
         tree = PseudoTree(self.problem_graph, self.variable_x_unary_constraint)
         tree.PseudoTreeCreation(rootNode)
         tree.ExportGraph(self.numOfAgents)
@@ -222,11 +224,14 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_5_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_3_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
     MspSolver.pseudo_tree.print_node_seperators()
+    algorithm = Dpop(MspSolver.pseudo_tree)
+    algorithm.Solve_Problem()
+
 
 
 
