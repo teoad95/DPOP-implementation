@@ -1,0 +1,29 @@
+digraph G { 
+"A7_M6" -> "A7_M3";
+"A7_M6" -> "A3_M6" [style = dashed];
+"A7_M3" -> "A3_M3";
+"A3_M3" -> "A3_M6";
+"A3_M3" -> "A3_M5" [style = dashed];
+"A3_M3" -> "A3_M1" [style = dashed];
+"A3_M6" -> "A3_M1";
+"A3_M6" -> "A3_M5" [style = dashed];
+"A3_M1" -> "A3_M5";
+"A3_M1" -> "A1_M1" [style = dashed];
+"A3_M1" -> "A2_M1" [style = dashed];
+"A3_M5" -> "A2_M5";
+"A2_M5" -> "A2_M1";
+"A2_M5" -> "A2_M4" [style = dashed];
+"A2_M5" -> "A2_M2" [style = dashed];
+"A2_M1" -> "A2_M4";
+"A2_M1" -> "A2_M2" [style = dashed];
+"A2_M1" -> "A1_M1" [style = dashed];
+"A2_M4" -> "A2_M2";
+"A2_M4" -> "A1_M4";
+"A2_M2" -> "A6_M2";
+"A2_M2" -> "A5_M2" [style = dashed];
+"A2_M2" -> "A4_M2" [style = dashed];
+"A6_M2" -> "A4_M2";
+"A6_M2" -> "A5_M2" [style = dashed];
+"A4_M2" -> "A5_M2";
+"A1_M4" -> "A1_M1";
+}

@@ -105,8 +105,14 @@ class Dpop(object):
         util_message = utils_to_join.pop(0)
 
         for u in utils_to_join:
+
             print('computing...')
-            util_message = join(util_message, u)
-            print('dimensions = ' , end='')
+            print('U1 dimensions = ', end='')
             print([v.name for v in util_message.dimensions()])
+            print('U2 dimensions = ', end='')
+            print([v.name for v in u.dimensions()])
+
+            util_message = join(util_message, u)
+
+
         return util_message
