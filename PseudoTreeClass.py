@@ -1,6 +1,8 @@
 import random
 import numpy as np
 from anytree import NodeMixin, PostOrderIter
+import math
+
 
 class PseudoTree(object):
 
@@ -193,7 +195,7 @@ class PseudoTreeNode(NodeMixin):
                 for i in range(len(self.var.utils)):
                     for j in range(len(v2.var.utils)):
                         if i == j:
-                            binary_constraint[i][j] = 0
+                            binary_constraint[i][j] = -math.inf
                         else:
                             binary_constraint[i][j] = int(self.var.utils[i]) + int(v2.var.utils[i])
 
@@ -204,7 +206,7 @@ class PseudoTreeNode(NodeMixin):
                         if i == j:
                             binary_constraint[i][j] = int(self.var.utils[i]) + int(v2.var.utils[i])
                         else:
-                            binary_constraint[i][j] = 0
+                            binary_constraint[i][j] = -math.inf
 
 
         return [self.var, v2.var], binary_constraint

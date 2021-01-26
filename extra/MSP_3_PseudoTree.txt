@@ -1,6 +1,6 @@
 digraph G { 
-"A3_M3" -> "A2_M3";
 "A2_M3" -> "A2_M1";
+"A2_M3" -> "A3_M3";
 "A2_M3" -> "A2_M2" [style = dashed];
 "A2_M1" -> "A2_M2";
 "A2_M1" -> "A1_M1" [style = dashed];
