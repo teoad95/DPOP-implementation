@@ -37,12 +37,11 @@ class MspSolver(object):
         self.numOfAgents = None
         self.numOfMeetings = None
         self.numOfVariables = None
-
+        self.PseudoTrees = []
         self.agents = []
         self.meetings = []
         self.variables = {}
         self.problem_graph = Graph({})
-        self.pseudo_tree = None
         self.variable_x_unary_constraint = {}
 
     def load_problem(self, filename):
@@ -193,12 +192,17 @@ class MspSolver(object):
             f.write("}")
 
     def create_pseudo_tree(self, rootNode = ""):
+        graph = self.problem_graph
+        while True:
+            tree = PseudoTree(graph, self.variable_x_unary_constraint)
+            tree.PseudoTreeCreation(rootNode)
+            tree.ExportGraph(self.numOfAgents)
+            self.PseudoTrees.pop(tree)
+            if not any(tree.NodesNotIncludedInTree):
+                break
+            graph = tree.NodesNotIncludedInTree
 
 
-        tree = PseudoTree(self.problem_graph, self.variable_x_unary_constraint)
-        tree.PseudoTreeCreation(rootNode)
-        tree.ExportGraph(self.numOfAgents)
-        self.pseudo_tree = tree
 
     def compute_unary_constraints(self):
 
@@ -224,14 +228,17 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_7_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_20_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
-    MspSolver.pseudo_tree.showconstaints()
-    MspSolver.pseudo_tree.print_node_seperators()
-    algorithm = Dpop(MspSolver.pseudo_tree)
-    algorithm.Solve_Problem()
+    # MspSolver.pseudo_tree.showconstaints()
+    # MspSolver.pseudo_tree.print_node_seperators()
+
+    for tree in MspSolver.PseudoTrees:
+        algorithm = Dpop(tree)
+        algorithm.Solve_Problem()
+
 
 
 
