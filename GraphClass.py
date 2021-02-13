@@ -63,3 +63,8 @@ class Graph(object):
         for edge in self.__generate_edges():
             res += str(edge) + " "
         return res
+
+
+    def GetDict(self):
+        """ returns the dictionary of nodes and neighbors """
+        return self.__graph_dict

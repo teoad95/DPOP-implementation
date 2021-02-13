@@ -197,7 +197,7 @@ class MspSolver(object):
             tree = PseudoTree(graph, self.variable_x_unary_constraint)
             tree.PseudoTreeCreation(rootNode)
             tree.ExportGraph(self.numOfAgents)
-            self.PseudoTrees.pop(tree)
+            self.PseudoTrees.append(tree)
             if not any(tree.NodesNotIncludedInTree):
                 break
             graph = tree.NodesNotIncludedInTree
@@ -228,7 +228,7 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_20_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_30_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()

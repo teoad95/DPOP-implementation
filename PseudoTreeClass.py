@@ -11,7 +11,7 @@ class PseudoTree(object):
         self.variable_x_unary_constraint = variable_x_unary_constraint
         self.PseudoNodes = []
         self.root = None
-        self.NodesNotIncludedInTree = graph
+        self.NodesNotIncludedInTree = graph.GetDict()
 
     def PseudoTreeCreation(self, rootName = ""):
         # elect leader randomly
