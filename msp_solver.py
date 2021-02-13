@@ -198,7 +198,7 @@ class MspSolver(object):
             tree.PseudoTreeCreation(rootNode)
             tree.ExportGraph(self.numOfAgents)
             self.PseudoTrees.append(tree)
-            if not any(tree.NodesNotIncludedInTree):
+            if not any(tree.NodesNotIncludedInTree.GetDict()):
                 break
             graph = tree.NodesNotIncludedInTree
 

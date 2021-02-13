@@ -65,7 +65,7 @@ class PseudoTree(object):
                                   var=self.variable_x_unary_constraint[name],
                                   parent=parent_node)
         self._AppendNodeToPseudoTree(rootNode)
-        self.NodesNotIncludedInTree.DeleteNode(rootNode)
+        self.NodesNotIncludedInTree.DeleteNode(name)
         return rootNode
 
     def _AppendNodeToPseudoTree(self, ptn):
