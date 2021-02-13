@@ -361,7 +361,7 @@ if __name__ == '__main__':
 
     H = AgentHierarchy(N)
     H.create_hierarchy()
-    H.create_meeting_bfs()
+    #H.create_meeting_bfs()
     H.create_meeting_dfs()
     H.generate_missing_meetings()
     H.export_to_file()

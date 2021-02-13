@@ -68,3 +68,9 @@ class Graph(object):
     def GetDict(self):
         """ returns the dictionary of nodes and neighbors """
         return self.__graph_dict
+
+    def __copy__(self):
+        return type(self)(self.__graph_dict)
+
+    def DeleteNode(self, node):
+        del self.__graph_dict[node]
