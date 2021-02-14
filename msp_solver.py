@@ -228,16 +228,20 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_30_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_3_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
     # MspSolver.pseudo_tree.showconstaints()
     # MspSolver.pseudo_tree.print_node_seperators()
+    import time
+    start_time = time.time()
 
     for tree in MspSolver.PseudoTrees:
         algorithm = Dpop(tree)
         algorithm.Solve_Problem()
+
+    print("--- DPOP Solution took %s seconds ---" % (time.time() - start_time))
 
 
 
