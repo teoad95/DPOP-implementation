@@ -108,6 +108,9 @@ class AgentNode(Agent, NodeMixin):
             if len(agentSiblings) > 0:
                 numberOfParticipants = random.randint(1, len(agentSiblings))
 
+                if numberOfParticipants > 3:
+                    numberOfParticipants = random.randint(1, 3)
+
                 # Choose a random subset of agent siblings
                 agentSiblings = random.sample(agentSiblings, numberOfParticipants)
 
@@ -131,6 +134,9 @@ class AgentNode(Agent, NodeMixin):
         if len(self.meetings) < MAX_MEETINGS:
             if len(agentChildren) > 0:
                 numberOfParticipants = random.randint(1, len(agentChildren))
+
+                if numberOfParticipants > 3:
+                    numberOfParticipants = random.randint(1, 3)
 
                 # Choose a random subset of agent children
                 agentChildren = random.sample(agentChildren, numberOfParticipants)
@@ -216,13 +222,13 @@ class AgentHierarchy:
     def create_meeting_dfs(self):
         for agent in [node for node in PreOrderIter(self.root)]:
 
-            meeting_type = random.randint(1, 20)
+            meeting_type = random.randint(1, 22)
 
             if meeting_type < 10:
                 agent.create_grp()
             elif meeting_type < 20:
                 agent.create_ptc()
-            elif meeting_type >= 19:
+            elif meeting_type >= 20:
                 agent.create_sib()
 
     def generate_missing_meetings(self):
@@ -361,7 +367,7 @@ if __name__ == '__main__':
 
     H = AgentHierarchy(N)
     H.create_hierarchy()
-    #H.create_meeting_bfs()
+    # H.create_meeting_bfs()
     H.create_meeting_dfs()
     H.generate_missing_meetings()
     H.export_to_file()

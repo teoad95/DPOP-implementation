@@ -192,15 +192,17 @@ class MspSolver(object):
             f.write("}")
 
     def create_pseudo_tree(self, rootNode = ""):
+        i = 1
         graph = self.problem_graph
         while True:
             tree = PseudoTree(graph, self.variable_x_unary_constraint)
             tree.PseudoTreeCreation(rootNode)
-            tree.ExportGraph(self.numOfAgents)
+            tree.ExportGraph(self.numOfAgents,i)
             self.PseudoTrees.append(tree)
             if not any(tree.NodesNotIncludedInTree.GetDict()):
                 break
             graph = tree.NodesNotIncludedInTree
+            i+=1
 
 
 
@@ -228,7 +230,7 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_3_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_45_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()

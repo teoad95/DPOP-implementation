@@ -74,8 +74,8 @@ class PseudoTree(object):
         if ptn not in self.PseudoNodes:
             self.PseudoNodes.append(ptn)
 
-    def ExportGraph(self, number_of_agents):
-        with open(".\\extra\\MSP_" + str(number_of_agents) + "_PseudoTree.txt", "w") as f:
+    def ExportGraph(self, number_of_agents,i):
+        with open(".\\extra\\MSP_" + str(number_of_agents) + "_" + str(i) + "_PseudoTree.txt", "w") as f:
             f.write("digraph G { " + '\n')
             for node in self.PseudoNodes:
                 for child in node.get_Child():
