@@ -109,9 +109,9 @@ class MspSolver(object):
             print("-------------------------------")
             print("DCOP Problem Description")
             print("-------------------------------")
-            print("Number of Agents: " + str(self.numOfAgents))
-            print("Number of Meetings: " + str(self.numOfMeetings))
-            print("Number of Variables: " + str(self.numOfVariables))
+            # print("Number of Agents: " + str(self.numOfAgents))
+            # print("Number of Meetings: " + str(self.numOfMeetings))
+            # print("Number of Variables: " + str(self.numOfVariables))
 
     def create_graph(self):
 
@@ -232,16 +232,26 @@ if __name__ == "__main__":
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
-    # MspSolver.pseudo_tree.showconstaints()
-    # MspSolver.pseudo_tree.print_node_seperators()
     import time
     start_time = time.time()
-
+    i = 1
     for tree in MspSolver.PseudoTrees:
+        print(f"Solving problem {i}")
         algorithm = Dpop(tree)
         algorithm.Solve_Problem()
+        print(f"Number of agents:: {MspSolver.numOfAgents}")
+        print(f"Number of meetings:: {MspSolver.numOfMeetings}")
+        print(f"Number of variables:: {MspSolver.numOfVariables}")
+        print(f"Number of constraints:: {tree.NumberOfConstraints}")
+        print(f"Max message size (array cells):: {8 ** algorithm.MaxUtilMessageSize}")
+        print(f"Cycles:: {tree.root.height * 2}")
+        print("Time of execution:: %s" % (time.time() - start_time))
+        i = i + 1
+        start_time = time.time()
 
-    print("--- DPOP Solution took %s seconds ---" % (time.time() - start_time))
+
+
+
 
 
 

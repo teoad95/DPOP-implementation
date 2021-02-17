@@ -12,6 +12,7 @@ class PseudoTree(object):
         self.PseudoNodes = []
         self.root = None
         self.NodesNotIncludedInTree = copy(graph)
+        self.NumberOfConstraints = 0
 
     def PseudoTreeCreation(self, rootName = ""):
         # elect leader randomly
@@ -58,6 +59,7 @@ class PseudoTree(object):
                 self.PseudoTreeNodesCreation(child_node)
                 # Removing child node name from token as we finished with child's children and we go one step back
                 # token.HavePassedFrom.remove(neighbourName)
+            self.NumberOfConstraints = self.NumberOfConstraints + 1
 
     def CreateNodeAndAddItOnTree(self, name, parent_node):
         nodesAndNeighbours = self.Graph.getNodesAndNeighbours()

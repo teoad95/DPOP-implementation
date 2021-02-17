@@ -21,6 +21,9 @@ class NAryMatrixRelation(object):
                 )
             self._m = matrix
 
+    def GetUtilMessageNumberOfDimensions(self):
+        return self._m.shape.__len__()
+
     def set_value_for_assignment(self, var_values, rel_value) -> "NAryMatrixRelation":
         if isinstance(var_values, list):
             _, s = self._slice_matrix([v.name for v in self._variables], var_values)

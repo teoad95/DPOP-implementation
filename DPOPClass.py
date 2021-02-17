@@ -6,6 +6,8 @@ class Dpop(object):
 
     def __init__(self, pseudoTree):
         self.PseudoTree = pseudoTree
+        self.Messages = 0
+        self.MaxUtilMessageSize = 0
 
     def Solve_Problem(self):
         # Util message propagation
@@ -39,7 +41,7 @@ class Dpop(object):
         utilsFromChildrensArray = []
         # print('Calculating Utils for :: ' + parent.name + ' with nodesToloop :: ', end = '' )
         # print([c.name for c in parent.get_Child()]  )
-
+        self.Messages = self.Messages + 1
 
         for node in nodesToloop:
             if node.get_Child():  # if node has childs get deeper
@@ -54,6 +56,8 @@ class Dpop(object):
         return self.CalculateUtil(parent, parent.utilsFromChildrensArray)
 
     def SendValue(self, sender, util, nodesToLoop):
+        self.Messages = self.Messages + 1
+
         for node in nodesToLoop:
             # print("VALUE: [" + sender.name + '] -> [' + node.name + '] :: ' + util)
             node.ValueMessages[sender.name] = util
@@ -120,5 +124,6 @@ class Dpop(object):
 
             util_message = join(util_message, u)
 
-
+        if self.MaxUtilMessageSize < util_message.GetUtilMessageNumberOfDimensions():
+            self.MaxUtilMessageSize = util_message.GetUtilMessageNumberOfDimensions()
         return util_message
