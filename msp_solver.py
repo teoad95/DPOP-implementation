@@ -237,14 +237,15 @@ if __name__ == "__main__":
     import time
     start_time = time.time()
     i = 1
+    print(f"Number of agents:: {MspSolver.numOfAgents}")
+    print(f"Number of meetings:: {MspSolver.numOfMeetings}")
+    print(f"Number of variables:: {MspSolver.numOfVariables}")
     for tree in MspSolver.PseudoTrees:
         print(f"Solving problem {i}")
         algorithm = Dpop(tree)
         algorithm.Solve_Problem()
-        print(f"Number of agents:: {MspSolver.numOfAgents}")
-        print(f"Number of meetings:: {MspSolver.numOfMeetings}")
-        print(f"Number of variables:: {MspSolver.numOfVariables}")
         print(f"Number of constraints:: {tree.NumberOfConstraints}")
+        print(f"Number of messages:: {algorithm.Messages}")
         print(f"Max message size (array cells):: {8 ** algorithm.MaxUtilMessageSize}")
         print(f"Cycles:: {tree.root.height * 2}")
         print("Time of execution:: %s" % (time.time() - start_time))
