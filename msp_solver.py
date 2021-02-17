@@ -230,27 +230,43 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_45_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_600_Problem.txt')
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
     import time
     start_time = time.time()
+    start_time_of_whole_ex = time.time()
     i = 1
     print(f"Number of agents:: {MspSolver.numOfAgents}")
     print(f"Number of meetings:: {MspSolver.numOfMeetings}")
     print(f"Number of variables:: {MspSolver.numOfVariables}")
+    numberOfConstraints = 0
+    numberOfMessages = 0
+    maxUtilMessageSize = 0
+    cycles = 0
     for tree in MspSolver.PseudoTrees:
         print(f"Solving problem {i}")
         algorithm = Dpop(tree)
         algorithm.Solve_Problem()
         print(f"Number of constraints:: {tree.NumberOfConstraints}")
+        numberOfConstraints = numberOfConstraints + tree.NumberOfConstraints
         print(f"Number of messages:: {algorithm.Messages}")
+        numberOfMessages = numberOfMessages + algorithm.Messages
         print(f"Max message size (array cells):: {8 ** algorithm.MaxUtilMessageSize}")
+        if maxUtilMessageSize < algorithm.MaxUtilMessageSize:
+            maxUtilMessageSize = algorithm.MaxUtilMessageSize
         print(f"Cycles:: {tree.root.height * 2}")
+        cycles = cycles + tree.root.height
         print("Time of execution:: %s" % (time.time() - start_time))
         i = i + 1
         start_time = time.time()
+    print(f"Final resuts")
+    print(f"Number of constraints:: {numberOfConstraints}")
+    print(f"Number of messages:: {numberOfMessages}")
+    print(f"Max message size (array cells):: {8 ** maxUtilMessageSize}")
+    print(f"Cycles:: {cycles * 2}")
+    print("Time of execution:: %s" % (time.time() - start_time_of_whole_ex))
 
 
 
