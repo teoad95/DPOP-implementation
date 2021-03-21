@@ -84,6 +84,24 @@ class PseudoTree(object):
                     f.write('"' + node.name + '" -> ' + '"' + pseudo_child.name + '"' + " [style = dashed]" + ';' + '\n')
             f.write("}")
 
+    def ExportGraphResults(self, number_of_agents,i):
+        with open(".\\extra\\MSP_" + str(number_of_agents) + "_" + str(i) + "_Result_Graph.txt", "w") as f:
+            f.write("digraph G { " + '\n')
+            f.write("node[shape = record]; " + '\n')
+
+            for node in self.PseudoNodes:
+                f.write('"' + node.name + '" [label="' + node.name + '|{[' + str(node.var.utils).strip('[]') + ']|' +
+                        node.name + '=' + str(node.var.optimal_value) + ', U='+ str(node.var.utils[int(node.var.optimal_value)-1]) + '}"];' + '\n')
+
+
+
+            for node in self.PseudoNodes:
+
+                for child in node.get_Child():
+                    f.write('"' + node.name + '" -> ' + '"' + child.name + '"' + ';' + '\n')
+                for pseudo_child in node.get_PseudoChild():
+                    f.write('"' + node.name + '" -> ' + '"' + pseudo_child.name + '"' + " [style = dashed]" + ';' + '\n')
+            f.write("}")
 
     def compute_node_seperators(self):
         for node in PostOrderIter(self.root):

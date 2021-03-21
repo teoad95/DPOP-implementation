@@ -4,7 +4,7 @@ from PseudoTreeClass import PseudoTree
 from DPOPClass import Dpop
 
 
-DOMAIN = ["8", "9", "10", "11", "12", "13", "14", "15"]
+DOMAIN = ["1", "2", "3", "4", "5", "6", "7", "8"]
 #DOMAIN = ["8", "9", "10" ]
 
 class Agent:
@@ -44,8 +44,10 @@ class MspSolver(object):
         self.problem_graph = Graph({})
         self.variable_x_unary_constraint = {}
 
-    def load_problem(self, filename):
+    def load_problem(self, filename, domain):
+        global DOMAIN
 
+        DOMAIN = [str(item) for item in range(1,domain+1)]
         with open(filename, 'r') as reader:
 
             line = reader.readline()
@@ -230,7 +232,7 @@ class MspSolver(object):
 if __name__ == "__main__":
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_600_Problem.txt')
+    MspSolver.load_problem('.\\extra\\MSP_25_8_Problem.txt', domain=8)
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
@@ -259,7 +261,11 @@ if __name__ == "__main__":
         print(f"Cycles:: {tree.root.height * 2}")
         cycles = cycles + tree.root.height
         print("Time of execution:: %s" % (time.time() - start_time))
+        tree.ExportGraphResults(MspSolver.numOfAgents, i)
         i = i + 1
+
+
+
         start_time = time.time()
     print(f"Final resuts")
     print(f"Number of constraints:: {numberOfConstraints}")

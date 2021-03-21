@@ -3,13 +3,8 @@ from anytree.exporter import DotExporter
 import random
 import sys
 
-TIME_SLOT_UTIL = [[10, 20, 30, 40, 50, 60, 70, 80],
-                  [80, 70, 60, 50, 40, 30, 20, 10],
-                  [10, 10, 10, 10, 10, 10, 10, 10]]
 
 MEETING_UTIL = ['100', '70', '50', '30', '10']
-
-MAX_MEETINGS = 8
 
 TOTAL_MEETINGS = 0
 
@@ -331,7 +326,7 @@ class AgentHierarchy:
 
     def export_to_file(self):
 
-        with open(".\\extra\\MSP_"+str(self.numOfAgents)+"_Problem.txt", "w") as f:
+        with open(".\\extra\\MSP_"+str(self.numOfAgents)+"_" +str(domain_size)+ "_Problem.txt", "w") as f:
 
             numOfVariables = 0
 
@@ -356,13 +351,37 @@ class AgentHierarchy:
 
 if __name__ == '__main__':
 
-    if len(sys.argv) < 2:
-        print("Provide the number of agents(example: python msp_generator.py 45)")
+    if len(sys.argv) < 3:
+        print("Provide the number of agents and domain (example: python msp_generator.py 10 4)")
         sys.exit()
     val = sys.argv[1]
-
+    domain_size = sys.argv[2]
     try:
         N = int(val)
+        domain_size = int(domain_size)
+
+        TIME_SLOT_UTIL = []
+
+        later_meetings = []
+        for item in range(1,domain_size+1 ):
+            later_meetings.append(item*10)
+
+        earlier_meetings = []
+        for item in range(domain_size,0,-1):
+            earlier_meetings.append(item*10)
+
+        no_preference = []
+        for item in range(1,domain_size+1):
+            no_preference.append(10)
+
+        TIME_SLOT_UTIL.append(later_meetings)
+        TIME_SLOT_UTIL.append(earlier_meetings)
+        TIME_SLOT_UTIL.append(no_preference)
+
+
+        MAX_MEETINGS = domain_size
+
+
         print("Generating Meeting Scheduling Problem")
     except ValueError:
         print("Provide Number!")
@@ -370,7 +389,8 @@ if __name__ == '__main__':
 
     H = AgentHierarchy(N)
     H.create_hierarchy()
-    H.create_meeting_bfs()
+    #H.create_meeting_bfs()
+    #H.create_meeting_dfs()
     H.create_meeting_dfs()
     H.generate_missing_meetings()
     H.export_to_file()

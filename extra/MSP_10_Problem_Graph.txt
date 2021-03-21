@@ -1,0 +1,35 @@
+graph G { 
+A1_M1
+A2_M1
+A2_M2
+A3_M1
+A3_M4
+A4_M2
+A4_M3
+A5_M2
+A6_M2
+A7_M5
+A8_M5
+A9_M4
+A9_M5
+A10_M3
+
+A2_M2 -- A2_M1  [style = bold, color = red]
+A3_M4 -- A3_M1  [style = bold, color = red]
+A4_M3 -- A4_M2  [style = bold, color = red]
+A9_M5 -- A9_M4  [style = bold, color = red]
+A3_M1 -- A1_M1  [style = bold, color = darkgreen]
+A3_M1 -- A2_M1  [style = bold, color = darkgreen]
+A2_M1 -- A1_M1  [style = bold, color = darkgreen]
+A6_M2 -- A2_M2  [style = bold, color = darkgreen]
+A6_M2 -- A4_M2  [style = bold, color = darkgreen]
+A6_M2 -- A5_M2  [style = bold, color = darkgreen]
+A5_M2 -- A2_M2  [style = bold, color = darkgreen]
+A5_M2 -- A4_M2  [style = bold, color = darkgreen]
+A4_M2 -- A2_M2  [style = bold, color = darkgreen]
+A9_M4 -- A3_M4  [style = bold, color = darkgreen]
+A10_M3 -- A4_M3  [style = bold, color = darkgreen]
+A9_M5 -- A7_M5  [style = bold, color = darkgreen]
+A9_M5 -- A8_M5  [style = bold, color = darkgreen]
+A8_M5 -- A7_M5  [style = bold, color = darkgreen]
+}

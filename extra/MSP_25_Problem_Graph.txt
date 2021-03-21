@@ -1,0 +1,86 @@
+graph G { 
+A1_M1
+A2_M1
+A2_M2
+A3_M1
+A3_M5
+A4_M2
+A5_M7
+A6_M8
+A7_M5
+A7_M6
+A8_M5
+A8_M6
+A9_M5
+A9_M6
+A10_M3
+A10_M9
+A11_M9
+A12_M3
+A12_M9
+A13_M9
+A14_M10
+A15_M10
+A16_M10
+A17_M7
+A17_M10
+A18_M4
+A19_M4
+A20_M4
+A21_M4
+A21_M8
+A22_M11
+A23_M11
+A24_M11
+A25_M11
+
+A2_M2 -- A2_M1  [style = bold, color = red]
+A3_M5 -- A3_M1  [style = bold, color = red]
+A7_M6 -- A7_M5  [style = bold, color = red]
+A8_M6 -- A8_M5  [style = bold, color = red]
+A9_M6 -- A9_M5  [style = bold, color = red]
+A10_M9 -- A10_M3  [style = bold, color = red]
+A12_M9 -- A12_M3  [style = bold, color = red]
+A17_M10 -- A17_M7  [style = bold, color = red]
+A21_M8 -- A21_M4  [style = bold, color = red]
+A3_M1 -- A1_M1  [style = bold, color = darkgreen]
+A3_M1 -- A2_M1  [style = bold, color = darkgreen]
+A2_M1 -- A1_M1  [style = bold, color = darkgreen]
+A4_M2 -- A2_M2  [style = bold, color = darkgreen]
+A9_M5 -- A3_M5  [style = bold, color = darkgreen]
+A9_M5 -- A7_M5  [style = bold, color = darkgreen]
+A9_M5 -- A8_M5  [style = bold, color = darkgreen]
+A8_M5 -- A3_M5  [style = bold, color = darkgreen]
+A8_M5 -- A7_M5  [style = bold, color = darkgreen]
+A7_M5 -- A3_M5  [style = bold, color = darkgreen]
+A17_M7 -- A5_M7  [style = bold, color = darkgreen]
+A21_M8 -- A6_M8  [style = bold, color = darkgreen]
+A9_M6 -- A7_M6  [style = bold, color = darkgreen]
+A9_M6 -- A8_M6  [style = bold, color = darkgreen]
+A8_M6 -- A7_M6  [style = bold, color = darkgreen]
+A12_M3 -- A10_M3  [style = bold, color = darkgreen]
+A13_M9 -- A10_M9  [style = bold, color = darkgreen]
+A13_M9 -- A11_M9  [style = bold, color = darkgreen]
+A13_M9 -- A12_M9  [style = bold, color = darkgreen]
+A12_M9 -- A10_M9  [style = bold, color = darkgreen]
+A12_M9 -- A11_M9  [style = bold, color = darkgreen]
+A11_M9 -- A10_M9  [style = bold, color = darkgreen]
+A17_M10 -- A14_M10  [style = bold, color = darkgreen]
+A17_M10 -- A15_M10  [style = bold, color = darkgreen]
+A17_M10 -- A16_M10  [style = bold, color = darkgreen]
+A16_M10 -- A14_M10  [style = bold, color = darkgreen]
+A16_M10 -- A15_M10  [style = bold, color = darkgreen]
+A15_M10 -- A14_M10  [style = bold, color = darkgreen]
+A21_M4 -- A18_M4  [style = bold, color = darkgreen]
+A21_M4 -- A19_M4  [style = bold, color = darkgreen]
+A21_M4 -- A20_M4  [style = bold, color = darkgreen]
+A20_M4 -- A18_M4  [style = bold, color = darkgreen]
+A20_M4 -- A19_M4  [style = bold, color = darkgreen]
+A19_M4 -- A18_M4  [style = bold, color = darkgreen]
+A25_M11 -- A22_M11  [style = bold, color = darkgreen]
+A25_M11 -- A23_M11  [style = bold, color = darkgreen]
+A25_M11 -- A24_M11  [style = bold, color = darkgreen]
+A24_M11 -- A22_M11  [style = bold, color = darkgreen]
+A24_M11 -- A23_M11  [style = bold, color = darkgreen]
+A23_M11 -- A22_M11  [style = bold, color = darkgreen]
+}
