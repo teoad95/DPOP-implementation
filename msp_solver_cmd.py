@@ -3,7 +3,7 @@ from GraphClass import Graph
 from PseudoTreeClass import PseudoTree
 from DPOPClass import Dpop
 import os
-
+import sys
 
 
 
@@ -242,10 +242,16 @@ class MspSolver(object):
 
 if __name__ == "__main__":
 
+    if len(sys.argv) < 2:
+        print("Provide the number of agents and domain (example: python msp_generator.py 10 4)")
+        sys.exit()
+
+    filepath = sys.argv[1]
+    domain_size = int(filepath.split('_')[-2])
 
 
     MspSolver = MspSolver()
-    MspSolver.load_problem('.\\extra\\MSP_5_8\\MSP_5_8_Problem.txt', domain=8)
+    MspSolver.load_problem(filepath, domain=domain_size)
     MspSolver.create_graph()
     MspSolver.export_graph()
     MspSolver.create_pseudo_tree()
@@ -260,32 +266,39 @@ if __name__ == "__main__":
     numberOfMessages = 0
     maxUtilMessageSize = 0
     cycles = 0
+    avg_util_loss_total = 0
+
     for tree in MspSolver.PseudoTrees:
+        print('-' * 20)
         print(f"Solving problem {i}")
+        print('-' * 20)
         algorithm = Dpop(tree)
         algorithm.Solve_Problem()
         print(f"Number of constraints:: {tree.NumberOfConstraints}")
         numberOfConstraints = numberOfConstraints + tree.NumberOfConstraints
         print(f"Number of messages:: {algorithm.Messages}")
         numberOfMessages = numberOfMessages + algorithm.Messages
-        print(f"Max message size (array cells):: {8 ** algorithm.MaxUtilMessageSize}")
+        print(f"Max message size (array cells):: {MspSolver.domain_size ** algorithm.MaxUtilMessageSize}")
         if maxUtilMessageSize < algorithm.MaxUtilMessageSize:
             maxUtilMessageSize = algorithm.MaxUtilMessageSize
         print(f"Cycles:: {tree.root.height * 2}")
         cycles = cycles + tree.root.height
-        print("Time of execution:: %s" % (time.time() - start_time))
+        print("Time of execution (s):: %.2f" % (time.time() - start_time))
         tree.ExportGraphResults(MspSolver.numOfAgents, MspSolver.domain_size,i)
+        avg_util_loss_total += tree.compute_average_utility_loss()
         i = i + 1
-
-
-
         start_time = time.time()
-    print(f"Final resuts")
+
+
+    print('-' * 20)
+    print(f"Final results")
+    print('-' * 20)
     print(f"Number of constraints:: {numberOfConstraints}")
     print(f"Number of messages:: {numberOfMessages}")
-    print(f"Max message size (array cells):: {8 ** maxUtilMessageSize}")
+    print(f"Max message size (array cells):: {MspSolver.domain_size ** maxUtilMessageSize}")
     print(f"Cycles:: {cycles * 2}")
-    print("Time of execution:: %s" % (time.time() - start_time_of_whole_ex))
+    print(f"Average Utility Loss (Total): {avg_util_loss_total / (i-1):.2f}")
+    print("Time of execution (s):: %.2f" % (time.time() - start_time_of_whole_ex))
 
 
 

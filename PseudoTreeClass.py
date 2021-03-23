@@ -74,8 +74,10 @@ class PseudoTree(object):
         if ptn not in self.PseudoNodes:
             self.PseudoNodes.append(ptn)
 
-    def ExportGraph(self, number_of_agents,i):
-        with open(".\\extra\\MSP_" + str(number_of_agents) + "_" + str(i) + "_PseudoTree.txt", "w") as f:
+    def ExportGraph(self, number_of_agents,domain_size, i):
+        file_dir = f".\\extra\\MSP_{number_of_agents}_{domain_size}"
+
+        with open(file_dir + "\\MSP_" + str(number_of_agents) + "_" + str(domain_size) + "_"+ str(i) + "_PseudoTree.txt", "w") as f:
             f.write("digraph G { " + '\n')
             for node in self.PseudoNodes:
                 for child in node.get_Child():
@@ -84,8 +86,11 @@ class PseudoTree(object):
                     f.write('"' + node.name + '" -> ' + '"' + pseudo_child.name + '"' + " [style = dashed]" + ';' + '\n')
             f.write("}")
 
-    def ExportGraphResults(self, number_of_agents,i):
-        with open(".\\extra\\MSP_" + str(number_of_agents) + "_" + str(i) + "_Result_Graph.txt", "w") as f:
+    def ExportGraphResults(self, number_of_agents,domain_size, i):
+
+        file_dir = f".\\extra\\MSP_{number_of_agents}_{domain_size}"
+
+        with open(file_dir + "\\MSP_" + str(number_of_agents)  + "_" + str(domain_size)  + "_" + str(i) + "_Result_Graph.txt", "w") as f:
             f.write("digraph G { " + '\n')
             f.write("node[shape = record]; " + '\n')
 
@@ -93,8 +98,6 @@ class PseudoTree(object):
                 f.write('"' + node.name + '" [label="' + node.name + '|{[' + str(node.var.utils).strip('[]') + ']|' +
                         node.name + '=' + str(node.var.optimal_value) + ', U='+ str(node.var.utils[int(node.var.optimal_value)-1]) + '}"];' + '\n')
 
-
-
             for node in self.PseudoNodes:
 
                 for child in node.get_Child():
@@ -102,6 +105,17 @@ class PseudoTree(object):
                 for pseudo_child in node.get_PseudoChild():
                     f.write('"' + node.name + '" -> ' + '"' + pseudo_child.name + '"' + " [style = dashed]" + ';' + '\n')
             f.write("}")
+
+    def compute_average_utility_loss(self):
+        util_loss_sum = 0
+        cnt = 0
+
+        for node in self.PseudoNodes:
+            util_loss_sum += (max(node.var.utils) - node.var.utils[int(node.var.optimal_value)-1]) /max(node.var.utils)
+            cnt+=1
+
+        print(f"Average Utility Loss: {util_loss_sum / cnt:.2f}")
+        return (util_loss_sum/cnt)
 
     def compute_node_seperators(self):
         for node in PostOrderIter(self.root):

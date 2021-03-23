@@ -2,7 +2,7 @@ from anytree import NodeMixin, LevelOrderIter, PreOrderIter
 from anytree.exporter import DotExporter
 import random
 import sys
-
+import os
 
 MEETING_UTIL = ['100', '70', '50', '30', '10']
 
@@ -154,8 +154,9 @@ class AgentNode(Agent, NodeMixin):
 
 
 class AgentHierarchy:
-    def __init__(self, num_of_agents):
+    def __init__(self, num_of_agents, domain_size):
         self.numOfAgents = num_of_agents
+        self.domain_size = domain_size
         self.root = None
 
     def create_hierarchy(self):
@@ -201,7 +202,12 @@ class AgentHierarchy:
 
                 availableNodes = availableNodesInner
 
-        DotExporter(root).to_dotfile(".\\extra\\MSP_"+str(self.numOfAgents)+"_Hierarchy_Tree.dot")
+
+        file_dir = f".\\extra\\MSP_{self.numOfAgents}_{self.domain_size}"
+        if not os.path.exists(file_dir):
+            os.makedirs(file_dir)
+
+        DotExporter(root).to_dotfile(file_dir + "\\MSP_"+str(self.numOfAgents)+"_" +str(domain_size)+ "_Hierarchy_Tree.txt")
 
         self.root = root
 
@@ -325,8 +331,8 @@ class AgentHierarchy:
         print("Agents with no meetings: " + str(agentsNoMeeting))
 
     def export_to_file(self):
-
-        with open(".\\extra\\MSP_"+str(self.numOfAgents)+"_" +str(domain_size)+ "_Problem.txt", "w") as f:
+        file_dir = f".\\extra\\MSP_{self.numOfAgents}_{self.domain_size}"
+        with open(file_dir + "\\MSP_"+str(self.numOfAgents)+"_" +str(domain_size)+ "_Problem.txt", "w") as f:
 
             numOfVariables = 0
 
@@ -387,7 +393,7 @@ if __name__ == '__main__':
         print("Provide Number!")
         sys.exit()
 
-    H = AgentHierarchy(N)
+    H = AgentHierarchy(N,domain_size)
     H.create_hierarchy()
     #H.create_meeting_bfs()
     #H.create_meeting_dfs()
